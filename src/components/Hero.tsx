@@ -1,6 +1,7 @@
 "use client";
 
-import { MessageCircle, Sparkles, Stethoscope } from "lucide-react";
+import Image from "next/image";
+import { MessageCircle, Sparkles } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { useBooking } from "@/lib/booking-context";
 import { DOCTOR } from "@/lib/content";
@@ -12,12 +13,12 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-lavender-50 pb-16 pt-32 sm:pb-20 sm:pt-36 lg:pt-40"
+      className="relative overflow-hidden bg-lavender-50 pb-16 pt-20 sm:pb-20 sm:pt-24 lg:pt-28"
     >
       <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-violet-100 sm:h-96 sm:w-96" />
       <div className="pointer-events-none absolute -bottom-32 -left-20 h-64 w-64 rounded-full bg-violet-100" />
 
-      <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
+      <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-start lg:gap-16 lg:px-8">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-4 py-1.5 text-xs font-semibold text-violet-700 sm:text-sm">
             <Sparkles className="h-3.5 w-3.5" />
@@ -68,10 +69,15 @@ export default function Hero() {
         </div>
 
         <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
-          <div className="aspect-[4/5] w-full overflow-hidden rounded-3xl border-8 border-white bg-violet-200 shadow-xl">
-            <div className="flex h-full w-full items-center justify-center bg-violet-100">
-              <Stethoscope className="h-24 w-24 text-violet-400" strokeWidth={1.25} />
-            </div>
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border-8 border-white bg-violet-100 shadow-xl">
+            <Image
+              src={DOCTOR.photo}
+              alt={DOCTOR.name}
+              fill
+              priority
+              sizes="(min-width: 1024px) 480px, 384px"
+              className="object-cover"
+            />
           </div>
           <div className="absolute -bottom-5 left-1/2 w-[85%] -translate-x-1/2 rounded-2xl bg-white px-5 py-4 text-center shadow-lg">
             <p className="font-display text-base font-bold text-violet-900">

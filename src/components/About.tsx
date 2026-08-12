@@ -1,6 +1,7 @@
 "use client";
 
-import { Quote, Stethoscope } from "lucide-react";
+import Image from "next/image";
+import { Quote } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { iconMap } from "@/lib/icon-map";
 import { ICONS, DOCTOR, type ExpertiseItem } from "@/lib/content";
@@ -23,10 +24,14 @@ export default function About() {
 
         <div className="mt-12 grid grid-cols-1 items-start gap-10 lg:grid-cols-5 lg:gap-12">
           <div className="lg:col-span-2">
-            <div className="mx-auto max-w-xs overflow-hidden rounded-3xl border-8 border-lavender-100 bg-violet-100 shadow-md lg:mx-0">
-              <div className="flex aspect-square items-center justify-center">
-                <Stethoscope className="h-20 w-20 text-violet-400" strokeWidth={1.25} />
-              </div>
+            <div className="relative mx-auto aspect-square max-w-xs overflow-hidden rounded-3xl border-8 border-lavender-100 bg-violet-100 shadow-md lg:mx-0">
+              <Image
+                src={DOCTOR.photo}
+                alt={DOCTOR.name}
+                fill
+                sizes="320px"
+                className="object-cover"
+              />
             </div>
             <div className="mx-auto mt-5 max-w-xs text-center lg:mx-0 lg:text-left">
               <p className="font-display text-lg font-bold text-violet-900">
