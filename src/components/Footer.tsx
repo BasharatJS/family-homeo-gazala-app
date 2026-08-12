@@ -88,8 +88,21 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-violet-800 pt-6 text-center text-xs text-violet-400">
-          © {new Date().getFullYear()} {DOCTOR.name} — {t.footer.rights}
+        <div className="mt-12 flex flex-col items-center gap-2 border-t border-violet-800 pt-6 text-center text-xs text-violet-400">
+          <p>
+            © {new Date().getFullYear()} {DOCTOR.name} — {t.footer.rights}
+          </p>
+          <p>
+            Developed by{" "}
+            <a
+              href="https://www.codewithbasharat.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-violet-300 hover:text-white"
+            >
+              CodeWithBasharat
+            </a>
+          </p>
         </div>
       </div>
     </footer>
