@@ -116,6 +116,8 @@ export interface SiteContent {
     followupLabel: string;
     durationSuffix: string;
     conditionsLabel: string;
+    moreLabel: string;
+    lessLabel: string;
     items: ServiceItem[];
     ctaBook: string;
     ctaWhatsapp: string;
@@ -284,6 +286,8 @@ export const content: Record<Language, SiteContent> = {
       followupLabel: "फॉलो-अप",
       durationSuffix: "मिनट",
       conditionsLabel: "किन बीमारियों का इलाज",
+      moreLabel: "और देखें",
+      lessLabel: "कम देखें",
       items: [
         {
           title: "महिलाओं की सेहत",
@@ -574,6 +578,8 @@ export const content: Record<Language, SiteContent> = {
       followupLabel: "Follow-up",
       durationSuffix: "minutes",
       conditionsLabel: "Conditions Treated",
+      moreLabel: "Show More",
+      lessLabel: "Show Less",
       items: [
         {
           title: "Women's Health & Gynecology",

@@ -1,6 +1,7 @@
 "use client";
 
-import { Clock, MessageCircle } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, ChevronUp, Clock, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { useBooking } from "@/lib/booking-context";
 import { iconMap } from "@/lib/icon-map";
@@ -24,72 +25,15 @@ export default function Services() {
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {t.services.items.map((item: ServiceItem, i: number) => {
-            const Icon = iconMap[ICONS.services[i]];
-            const meta = SERVICE_META[i];
-            return (
-              <div
-                key={item.title}
-                className="flex flex-col rounded-2xl border border-violet-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-600 text-white">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <h3 className="mt-4 font-display text-base font-bold text-violet-900">
-                  {item.title}
-                </h3>
-                <p className="mt-1.5 text-sm text-ink-soft">{item.desc}</p>
-
-                <div className="mt-4 flex items-center gap-4 rounded-xl bg-lavender-50 px-3.5 py-2.5 text-xs text-ink-soft">
-                  <span>
-                    <span className="font-semibold text-violet-700">
-                      {t.services.initialLabel}:
-                    </span>{" "}
-                    ₹{meta.initial}
-                  </span>
-                  <span>
-                    <span className="font-semibold text-violet-700">
-                      {t.services.followupLabel}:
-                    </span>{" "}
-                    ₹{meta.followup}
-                  </span>
-                </div>
-                <div className="mt-2 flex items-center gap-1.5 text-xs text-ink-soft">
-                  <Clock className="h-3.5 w-3.5" />
-                  {meta.duration} {t.services.durationSuffix}
-                </div>
-
-                <div className="mt-4 flex-1">
-                  <p className="text-xs font-semibold text-violet-700">
-                    {t.services.conditionsLabel}
-                  </p>
-                  <ul className="mt-2 space-y-1.5">
-                    {item.conditions.slice(0, 3).map((c: string) => (
-                      <li
-                        key={c}
-                        className="flex items-start gap-1.5 text-xs text-ink-soft"
-                      >
-                        <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-violet-400" />
-                        {c}
-                      </li>
-                    ))}
-                    {item.conditions.length > 3 && (
-                      <li className="text-xs text-violet-500">
-                        +{item.conditions.length - 3}
-                      </li>
-                    )}
-                  </ul>
-                </div>
-
-                <button
-                  onClick={() => openBooking(item.title)}
-                  className="mt-5 w-full rounded-xl border-2 border-violet-600 py-2.5 text-sm font-semibold text-violet-700 transition-colors hover:bg-violet-600 hover:text-white"
-                >
-                  {t.services.ctaBook}
-                </button>
-              </div>
-            );
-          })}
+          {t.services.items.map((item: ServiceItem, i: number) => (
+            <ServiceCard
+              key={item.title}
+              item={item}
+              icon={ICONS.services[i]}
+              meta={SERVICE_META[i]}
+              onBook={() => openBooking(item.title)}
+            />
+          ))}
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -111,5 +55,94 @@ export default function Services() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ServiceCard({
+  item,
+  icon,
+  meta,
+  onBook,
+}: {
+  item: ServiceItem;
+  icon: string;
+  meta: { initial: number; followup: number; duration: number };
+  onBook: () => void;
+}) {
+  const { t } = useLanguage();
+  const [expanded, setExpanded] = useState(false);
+  const Icon = iconMap[icon];
+  const visibleConditions = expanded ? item.conditions : item.conditions.slice(0, 3);
+  const hiddenCount = item.conditions.length - 3;
+
+  return (
+    <div className="flex flex-col rounded-2xl border border-violet-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
+      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-600 text-white">
+        <Icon className="h-5 w-5" />
+      </span>
+      <h3 className="mt-4 font-display text-base font-bold text-violet-900">
+        {item.title}
+      </h3>
+      <p className="mt-1.5 text-sm text-ink-soft">{item.desc}</p>
+
+      <div className="mt-4 flex items-center gap-4 rounded-xl bg-lavender-50 px-3.5 py-2.5 text-xs text-ink-soft">
+        <span>
+          <span className="font-semibold text-violet-700">
+            {t.services.initialLabel}:
+          </span>{" "}
+          ₹{meta.initial}
+        </span>
+        <span>
+          <span className="font-semibold text-violet-700">
+            {t.services.followupLabel}:
+          </span>{" "}
+          ₹{meta.followup}
+        </span>
+      </div>
+      <div className="mt-2 flex items-center gap-1.5 text-xs text-ink-soft">
+        <Clock className="h-3.5 w-3.5" />
+        {meta.duration} {t.services.durationSuffix}
+      </div>
+
+      <div className="mt-4 flex-1">
+        <p className="text-xs font-semibold text-violet-700">
+          {t.services.conditionsLabel}
+        </p>
+        <ul className="mt-2 space-y-1.5">
+          {visibleConditions.map((c: string) => (
+            <li key={c} className="flex items-start gap-1.5 text-xs text-ink-soft">
+              <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-violet-400" />
+              {c}
+            </li>
+          ))}
+        </ul>
+        {hiddenCount > 0 && (
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            className="mt-2 flex items-center gap-1 text-xs font-semibold text-violet-600 hover:text-violet-700"
+          >
+            {expanded ? (
+              <>
+                {t.services.lessLabel}
+                <ChevronUp className="h-3.5 w-3.5" />
+              </>
+            ) : (
+              <>
+                {t.services.moreLabel} (+{hiddenCount})
+                <ChevronDown className="h-3.5 w-3.5" />
+              </>
+            )}
+          </button>
+        )}
+      </div>
+
+      <button
+        onClick={onBook}
+        className="mt-5 w-full rounded-xl border-2 border-violet-600 py-2.5 text-sm font-semibold text-violet-700 transition-colors hover:bg-violet-600 hover:text-white"
+      >
+        {t.services.ctaBook}
+      </button>
+    </div>
   );
 }
